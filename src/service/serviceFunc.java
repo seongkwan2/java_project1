@@ -5,6 +5,7 @@ import java.util.Scanner;
 import common.addService;
 import common.mypageService;
 import common.serviceService;
+import shop.MainShop;
 
 public class serviceFunc implements MainPage2{
 	Scanner sc = new Scanner(System.in);
@@ -37,7 +38,7 @@ public class serviceFunc implements MainPage2{
 	}
 
 	@Override
-	public void search() {
+	public void search(String id) {
 		int num;
 		System.out.println("1.필터(설정)\n2.모든 상품 보기\n3.품절 제외 상품보기\n4.상품명 검색\n입력>>>");
 		try {
@@ -47,13 +48,13 @@ public class serviceFunc implements MainPage2{
 				serS.filter();
 				break;
 			case 2:
-				serS.Allsearch(); //전체보기
+				serS.Allsearch(id); //전체보기
 				break;
 			case 3:
-				serS.AllsearchIf();
+				serS.AllsearchIf(id);
 				break;
 			case 4:
-				serS.search();
+				serS.search(id);
 				break;
 			default:
 				System.out.println("잘못 입력 하셨습니다.\n다시 입력해주세요.\n");
@@ -107,17 +108,36 @@ public class serviceFunc implements MainPage2{
 		}
 	}
 	
-	public void modify() {
-		System.out.println("1.비밀번호 변경 2.이메일 변경 3.전화번호 변경 4.이름 변경");
+	public void modify(String id) {
+		System.out.println("1.비밀번호 변경\n2.이메일 변경\n3.전화번호 변경\n4.이름 변경\n5.취소");
+		int num = sc.nextInt();
+		switch(num) {
+		case 1 : ms.myPmodify(id, "pwd",modifyadd());
+			break;
+		case 2 : ms.myPmodify(id, "eaddr",modifyadd());
+			break;
+		case 3 :ms.myPmodify(id, "phone",modifyadd());
+			break;
+		case 4:ms.myPmodify(id, "u_Name",modifyadd());
+			break;
+		case 5:
+			return;
+		}
 	}
 	
+	public String modifyadd() {	//변경을 위한 메소드
+		System.out.println("변경 내용 : ");
+		String s1 = sc.next();
+		return s1;
+	}
 	
+
 	
 	@Override
 	public void myPage(String id) {
 		int num;
 		while(true) {
-			System.out.println("1.상품관리 2.건의사항관리 3.찜목록 4.정보수정 5.나가기");
+			System.out.println("1.상품관리\n2.건의사항관리\n3.찜목록\n4.내 정보수정\n5.나가기");
 			num = sc.nextInt();
 			switch(num) {
 			case 1 : product(id);
@@ -125,8 +145,8 @@ public class serviceFunc implements MainPage2{
 			case 2 : suggest(id);
 				break;
 			case 3 :
-				buyS.wishlist();	
-				serviceDTO target = buyS.buyChoice();	//choice에서 취소시 null값 반환
+				buyS.wishlist(id);	
+				serviceDTO target = buyS.buyChoice(id);	//choice에서 취소시 null값 반환
 				if(target == null) {					//target에 값이 없으면 다시 취소하고
 					break;								//처음부터
 				}
@@ -134,6 +154,8 @@ public class serviceFunc implements MainPage2{
 				buyS.wishlistdel(target);
 				break;
 			case 4 :
+				ms.myinfo(id);
+				modify(id);
 				break;
 			case 5 :
 				return;
@@ -145,11 +167,11 @@ public class serviceFunc implements MainPage2{
 	@Override
 	public void service(String id) {
 		int num;
-		System.out.println("1.공지사항 2.건의사항");
+		System.out.println("1.공지사항\n2.건의사항");
 		num = sc.nextInt();
 		switch(num) {
 		case 1 : ss.serviceView("notice");
-				System.out.println("1.등록 2.나가기");
+				System.out.println("1.등록\n2.나가기");
 				num = sc.nextInt();
 				switch(num) {
 				case 1 : System.out.print("등록할 공지사항 : ");
@@ -163,7 +185,7 @@ public class serviceFunc implements MainPage2{
 				}
 			break;
 		case 2 : ss.serviceView("suggest");
-				System.out.println("1.등록 2.나가기");
+				System.out.println("1.등록\n2.나가기");
 				num = sc.nextInt();
 				switch(num) {
 				case 1 :

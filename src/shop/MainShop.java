@@ -11,7 +11,7 @@ public class MainShop {
 		Scanner sc = new Scanner(System.in);
 		MainPage2 sf = new serviceFunc();			//상품등록 ,검색 구매 기능
 		MainPage mp = new MainFunc();				//회원가입,로그인기능
-
+		
 		int num = 0;
 		String logcheck = null;
 
@@ -33,14 +33,14 @@ public class MainShop {
 			case 2 : logcheck = mp.login();
 			if(logcheck != null) {
 				while(logcheck != null) {
-					System.out.println("1.상품등록 2.상품검색 3.마이페이지 4.고객센터 5.로그아웃");
+					System.out.println("1.상품등록\n2.상품검색\n3.마이페이지\n4.고객센터\n5.로그아웃");
 					num = sc.nextInt();
 					switch(num) {
 					case 1 :
 						sf.add(logcheck);
 						break;
 					case 2 :
-						sf.search();
+						sf.search(logcheck);
 						break;
 					case 3 : sf.myPage(logcheck);
 					break;

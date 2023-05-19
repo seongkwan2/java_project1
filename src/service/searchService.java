@@ -14,7 +14,7 @@ public class searchService extends DBService {
 	BuyService buyS = new BuyService();
 
 	//모든 상품 보기
-	public void Allsearch() {
+	public void Allsearch(String id) {
 		Scanner scan = new Scanner(System.in);
 		String sql = "select * from shop where s_price BETWEEN ? AND ?"
 				+ "order by s_price "+order+", s_brand asc";
@@ -39,7 +39,7 @@ public class searchService extends DBService {
 			}
 			System.out.println("==============================");
 			
-			serviceDTO target = buyS.buyChoice();	//구매하는 기능에 어떤 물품을 사는지 전달
+			serviceDTO target = buyS.buyChoice(id);	//구매하는 기능에 어떤 물품을 사는지 전달
 			if(target == null) {					//target에 값이 없으면 다시 취소하고
 				return;								//처음부터
 			}
@@ -73,7 +73,7 @@ public class searchService extends DBService {
 
 
 	//품절제외 상품 보기
-	public void AllsearchIf() {
+	public void AllsearchIf(String id) {
 		Scanner scan = new Scanner(System.in);
 		String sql = "select * from shop where s_price BETWEEN ? AND ? and s_total > 0"
 				+ "order by s_price "+order+", s_brand asc";
@@ -97,7 +97,7 @@ public class searchService extends DBService {
 			}
 			System.out.println("==============================");
 			
-			serviceDTO target = buyS.buyChoice();	//구매하는 기능에 어떤 물품을 사는지 전달
+			serviceDTO target = buyS.buyChoice(id);	//구매하는 기능에 어떤 물품을 사는지 전달
 			if(target == null) {					//target에 값이 없으면 다시 취소하고
 				return;								//처음부터
 			}
@@ -131,7 +131,7 @@ public class searchService extends DBService {
 
 
 	//원하는 상품 검색
-	public void search() {
+	public void search(String id) {
 		Scanner scan = new Scanner(System.in);
 		String sql = 
 				"SELECT * FROM shop WHERE s_name LIKE ? OR s_brand LIKE ?"
@@ -160,7 +160,7 @@ public class searchService extends DBService {
 				System.out.println(rs.getInt("s_total"));
 				System.out.println();
 			}
-			serviceDTO target = buyS.buyChoice();	//구매하는 기능에 어떤 물품을 사는지 전달
+			serviceDTO target = buyS.buyChoice(id);	//구매하는 기능에 어떤 물품을 사는지 전달
 			if(target == null) {					//target에 값이 없으면 다시 취소하고
 				return;								//처음부터
 			}

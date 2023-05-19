@@ -11,7 +11,7 @@ public class BuyService extends DBService {
 
 
 	//고르는 매서드
-	public serviceDTO buyChoice() {
+	public serviceDTO buyChoice(String id) {
 		DBController dbcon = new DBController();
 		ArrayList<serviceDTO> sdto = dbcon.controller();
 		serviceDTO sdto1 = null;
@@ -28,12 +28,12 @@ public class BuyService extends DBService {
 				if (sdto.get(i).getSName().toLowerCase().replaceAll("\\s", "").equals(item.replaceAll("\\s", ""))) {
 					System.out.println("선택하신 상품은 " + sdto.get(i).getSName() + "입니다.");
 					sdto1 = new serviceDTO();
-					sdto1.setSId("aa123");
+					sdto1.setSId(id);
 					sdto1.setSName(sdto.get(i).getSName());
 					sdto1.setSBrand(sdto.get(i).getSBrand());
 					sdto1.setSPrice(sdto.get(i).getSPrice());
 					sdto1.setSTotal(sdto.get(i).getSTotal());
-					return sdto1; // 객체를 ArrayList에 추가
+					return sdto1; 
 
 				}
 			}
@@ -87,7 +87,6 @@ public class BuyService extends DBService {
 	//장바구니에 넣기
 	public void wishadd(serviceDTO sdto1) {
 		DBController dbcon = new DBController();
-		ArrayList<serviceDTO> sdto = dbcon.controller();
 		int r1 = 0;
 		try {
 			
@@ -114,9 +113,9 @@ public class BuyService extends DBService {
 
 
 //장바구니 확인
-public void wishlist() {
+public void wishlist(String id) {
 
-	String sql = "select * from wishlist";
+	String sql = "select * from wishlist where w_id = '"+id+"'";
 	try {
 		ps = con.prepareStatement(sql);
 		rs = ps.executeQuery();
@@ -127,8 +126,9 @@ public void wishlist() {
 		System.out.println("==================================");
 		
 		//if()문으로 내 아이디가 들어있는 값만 출력
+		
 		while(rs.next()) {
-
+			
 			System.out.print(rs.getString("w_brand")+"\t     ");
 			System.out.print(rs.getString("w_name")+"\t     ");
 			System.out.print(rs.getInt("w_price")+"");
